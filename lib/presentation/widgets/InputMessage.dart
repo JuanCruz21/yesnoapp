@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 
 class InputMessage extends StatelessWidget {
-  const InputMessage({super.key});
+  final ValueChanged<String> onValue;
+  const InputMessage({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +24,8 @@ class InputMessage extends StatelessWidget {
       suffixIcon: IconButton(
           onPressed: () {
             final textValue = textController.value.text;
-            print('valor enviado: $textValue');
             textController.clear();
+            onValue(textValue);
           },
           icon: const Icon(Icons.send)),
     );
@@ -37,14 +38,9 @@ class InputMessage extends StatelessWidget {
       controller: textController,
       decoration: inputDecoration,
       onFieldSubmitted: (value) {
-        print('value: $value');
-
+        onValue(value);
         textController.clear();
-      },
-      onChanged: (value) {
-        print('value enviando: $value');
-        focusNode.requestFocus();
-      },
+      }
     );
   }
 }
